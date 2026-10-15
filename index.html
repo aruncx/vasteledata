@@ -57,13 +57,13 @@ function setup(keep){const py=ys.value,pm=ms.value;
 ys.innerHTML='<option value="0">All years</option>'+[...new Set(D.map(d=>d.y))].reverse().map(y=>`<option>${y}</option>`).join('');
 ms.innerHTML='<option value="0">Full year</option>'+MN.map((m,i)=>`<option value="${i+1}">${m}</option>`).join('');
 last=D[D.length-1];if(keep&&[...ys.options].some(o=>o.value==py)){ys.value=py;ms.value=pm}else{ys.value=last.y;ms.value=last.m}}
-const SID='1OpLEMM6M32YDPY0Q3xDBPSijiQSy0_Uj3b1BGBZmLF8',IDX=[1,2,3,4,5,6,7,8,9,10,11,12,13,16,21,22,23,24,25],MM={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,oto:10,nov:11,dec:12};
+const SID='13GzUszXnNx5fq3gJKk8wpHq_6S3NN8gF8KNjxjJJzzw',IDX=[1,2,3,4,5,6,7,8,9,10,11,12,13,16,21,22,23,24,25],MM={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,oto:10,nov:11,dec:12};
 function csv(t){const rows=[];let r=[],c='',q=false;for(let i=0;i<t.length;i++){const x=t[i];if(q){if(x=='"'){if(t[i+1]=='"'){c+='"';i++}else q=false}else c+=x}else if(x=='"')q=true;else if(x==','){r.push(c);c=''}else if(x=='\n'||x=='\r'){if(x=='\r'&&t[i+1]=='\n')i++;r.push(c);rows.push(r);r=[];c=''}else c+=x}r.push(c);rows.push(r);return rows}
 function parse(rows){const out=[];rows.forEach(r=>{const m=/^\s*([A-Za-z]{3})[-\s'](\d{2})\s*$/.exec(r[0]||'');if(!m||!MM[m[1].toLowerCase()])return;
 const a=IDX.map(i=>{const v=parseFloat(String(r[i]||'').replace(/[,₹\s]/g,''));return isNaN(v)?0:Math.round(v)});
 if(!a[9]&&!a[5])return;out.push([(2000+ +m[2])+'-'+String(MM[m[1].toLowerCase()]).padStart(2,'0'),...a])});return out}
 async function load(){const st=$('#st');st.textContent='Syncing…';
-try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv`,{cache:'no-store'});if(!r.ok)throw 0;const d=parse(csv(await r.text()));if(d.length<12)throw 0;
+try{const r=await fetch(`https://docs.google.com/spreadsheets/d/${SID}/gviz/tq?tqx=out:csv&_=${Date.now()}`,{cache:'no-store'});if(!r.ok)throw 0;const d=parse(csv(await r.text()));if(d.length<12)throw 0;
 D=mkD(d);setup(true);render();st.className='st on';st.textContent='● Live · Google Sheet · '+new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit'})}
 catch(e){st.className='st';st.textContent='Saved data (to '+MN[last.m-1]+' '+last.y+') · tap to retry live sync'}}
 const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
