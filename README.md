@@ -69,39 +69,6 @@ A live, single-page web dashboard that shows how the campus of **Vidya Academy o
 
 ---
 
-## Where the data comes from
-
-The page reads a **Google Sheet** and refreshes every 5 minutes (or when the sync chip is tapped). If the sheet cannot be reached, it shows the last saved copy of the data built into the page.
-
-### Sheet layout (columns used)
-
-| Column | Content |
-|---|---|
-| A | Month, for example `Oct-26` |
-| B, C | DG-1 and DG-2 generation (kWh) |
-| D, E, F | Solar 15, 100 and 120 kWp generation (kWh) |
-| G | KSEB import, Zone 1 (kWh) |
-| H | Total Zone 1 (net of export) |
-| I, J | KSEB Zone 2 and Zone 3 units (kWh) |
-| K | Total units (consumption) |
-| L, M, N | Zone 1, 2 and 3 amounts (₹) |
-| Q | MD charges (₹) |
-| V | Projected bill if all units came from KSEB (₹) |
-| W | KSEB bill actually paid (₹) |
-| X | Solar bill (₹) |
-| Y | Export to KSEB (kWh) |
-| Z | Saving (₹) = V − W − X |
-
-### Rules for entering data
-
-- Keep the columns in the same order. Do not insert or move columns.
-- Write the month like `Nov-26`. The page also understands `Nov 26`, `November 2026`, `26-Nov-2026` and `2026-11-01`.
-- A month appears as soon as any generation or import number is entered. If Total Units is empty, the page works it out.
-- Rows that are not months (such as financial-year TOTAL rows) are ignored.
-- The **May 2018** row holds the **cumulative total for Jan 2014 – May 2018**. The page shows it separately and leaves it out of monthly charts.
-- The sheet must be shared as **Anyone with the link can view**.
-
----
 
 ## How the main numbers are calculated
 
@@ -137,64 +104,12 @@ The page reads a **Google Sheet** and refreshes every 5 minutes (or when the syn
 
 ---
 
-## Files in this repository
-
-| File | Purpose |
-|---|---|
-| `index.html` | The complete dashboard (one file: page, styles, logic and a saved data copy). Rename `energy_dashboard.html` to `index.html` if needed. |
-| `robots.txt` | Asks search engines and AI crawlers not to index the page. It works only when placed at the root of the domain. |
-| `README.md` | This guide. |
-
-No server, database or build step is needed. Charts use **Chart.js 4.4.1** loaded from cdnjs.
-
----
-
-## Publishing on GitHub Pages
-
-1. Put `index.html` (and this README) in the repository `vasteledata`.
-2. Open **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**, select the `main` branch and the `/ (root)` folder, then save.
-4. After a minute the page is live at `https://aruncx.github.io/vasteledata/`.
-5. After updating the file, hard refresh the page (Ctrl+Shift+R) to see the change.
-
-### Changing the Google Sheet
-
-The sheet ID is stored in encoded form inside `index.html` as `SID=atob('...')`. To use a different sheet:
-
-1. Open your browser console and run `btoa('YOUR_NEW_SHEET_ID')`.
-2. Replace the text inside `atob('...')` with the result.
-3. Make sure the new sheet has the same column layout and is shared as "Anyone with the link can view".
-
----
-
-## Security and privacy notes
-
-The page includes basic deterrents: right-click, copy, text selection, common inspect shortcuts (F12, Ctrl+U and similar) and printing are blocked, the data and sheet ID are stored in encoded form, and the page asks search engines and AI crawlers not to index it.
-
-**Important limits**
-- These are deterrents only. Anything shown in a browser can still be captured with a screenshot or advanced tools.
-- The Google Sheet is public to anyone with the link, because the page must read it.
-- For real protection, put the page behind a login (for example Cloudflare Access, or Netlify or Vercel password protection) and share the sheet only with named people, using a small Google Apps Script to pass the page only the data it needs.
-
----
-
 ## Known data notes
 
 - Rows before April 2019 do not add DG units into the Zone 1 total, while newer rows do. The page uses the totals as given in the sheet.
 - The 120 kWp plant has two different April 2026 start dates in the sheet notes.
 - Sep 2026 solar performance is about 4.75 kWh per kWp per day, which is high for a monsoon month. Please check plant sizes and meter readings.
 - Impact figures are estimates for awareness, not audited measurements.
-
----
-
-## Troubleshooting
-
-| Problem | What to do |
-|---|---|
-| Sync chip is grey ("Saved data") | The page could not reach the sheet. Check sharing ("Anyone with the link can view"), the column layout, and your internet connection, then tap the chip. |
-| New month not showing | Check the month format (`Nov-26`) and that at least one generation or import number is entered. Wait a minute or two, then tap the chip. |
-| Old page still showing | Hard refresh (Ctrl+Shift+R) or clear the browser cache. |
-| Charts look empty | Select a different month or year, or choose "Full year". |
 
 ---
 
