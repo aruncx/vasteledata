@@ -324,9 +324,9 @@ const ds=E?[...S.slice().reverse().map(s=>({label:s[0],data:rows.map(d=>d[s[1]])
 ds.forEach(d=>{if(d.type!='line'){d.borderColor=c=>c.dataIndex==hv?css('--tx'):'transparent';d.borderWidth=2}});
 chart=new Chart(el.querySelector('#cb'),{type:'bar',plugins:[band],data:{labels:lb,datasets:ds},options:{responsive:true,maintainAspectRatio:false,interaction:{mode:'index',intersect:false},onHover:pick,onClick:pick,
 scales:{x:{stacked:true,ticks:{maxRotation:60,autoSkip:n>40}},y:{stacked:true,ticks:{callback:v=>E?f(v):Rs(v)}}},
-plugins:{legend:{position:'bottom',labels:{boxWidth:12}},tooltip:{padding:12,titleFont:{size:14},backgroundColor:css('--card'),titleColor:css('--tx'),bodyColor:css('--tx'),footerColor:css('--mut'),borderColor:css('--ac'),borderWidth:1,boxPadding:5,animation:{duration:0},callbacks:{title:it=>nm(rows[it[0].dataIndex]),
+plugins:{legend:{position:'bottom',labels:{boxWidth:12}},tooltip:{mode:'nearest',intersect:true,padding:12,titleFont:{size:14},backgroundColor:css('--card'),titleColor:css('--tx'),bodyColor:css('--tx'),footerColor:css('--mut'),borderColor:css('--ac'),borderWidth:1,boxPadding:5,animation:{duration:0},callbacks:{title:it=>nm(rows[it[0].dataIndex]),
 label:c=>{const d=rows[c.dataIndex],v=c.raw;return E?' '+c.dataset.label+': '+f(v)+' kWh'+(c.dataset.type=='line'?'':' · '+pc(v,src(d))):' '+c.dataset.label+': ₹'+f(v)},
-footer:it=>{const d=rows[it[0].dataIndex];return E?['Total energy sources: '+f(src(d))+' kWh','Campus consumption: '+f(d.tot)+' kWh']:['All-KSEB bill (projected): ₹'+f(d.bill),'Total paid (KSEB + solar): ₹'+f(d.kb+d.sol),'Net saving: ₹'+f(d.sav)+' ('+pc(d.sav,d.bill)+')']}}}}}});
+afterLabel:c=>{if(E)return '';const d=rows[c.dataIndex];return c.dataset.label.indexOf('All-KSEB')==0?'Bill if every unit came from KSEB':pc(c.raw,d.bill)+' of the all-KSEB bill'}}}}}});
 const close=()=>{chart.destroy();el.remove();document.body.style.overflow='';document.removeEventListener('keydown',kd)},kd=e=>{if(e.key=='Escape')close()};
 el.addEventListener('click',e=>{if(e.target===el||e.target.closest('.mx'))close()});document.addEventListener('keydown',kd)}
 document.addEventListener('click',e=>{const c=e.target.closest&&e.target.closest('[data-big]');if(c)openBig(c.dataset.big)});
