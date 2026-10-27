@@ -15,23 +15,6 @@ A live, single-page web dashboard that shows how the campus of **Vidya Academy o
 
 ---
 
-## 📑 Table of contents
-
-1. 🌟 [Why this dashboard? (Advantages)](#-why-this-dashboard-advantages)
-2. 🔌 [Energy sources tracked](#-energy-sources-tracked)
-3. ✨ [Complete feature list](#-complete-feature-list)
-4. 📊 [Where the data comes from](#-where-the-data-comes-from)
-5. 🧠 [How the main numbers are calculated](#-how-the-main-numbers-are-calculated)
-6. 🌍 [Impact factors](#-impact-factors-illustrative-estimates)
-7. 📁 [Files in this repository](#-files-in-this-repository)
-8. 🚀 [Publishing on GitHub Pages](#-publishing-on-github-pages)
-9. 🔒 [Security and privacy notes](#-security-and-privacy-notes)
-10. 📝 [Known data notes](#-known-data-notes)
-11. 🛠️ [Troubleshooting](#-troubleshooting)
-12. 📬 [Contact](#-contact)
-
----
-
 ## 🌟 Why this dashboard? (Advantages)
 
 | Advantage | What it means for the college |
