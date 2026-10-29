@@ -15,22 +15,6 @@ A live, single-page web dashboard that shows how the campus of **Vidya Academy o
 
 ---
 
-## 📑 Table of contents
-
-1. 🌟 [Why this dashboard? (Advantages)](#-why-this-dashboard-advantages)
-2. 🔌 [Energy sources tracked](#-energy-sources-tracked)
-3. ✨ [Complete feature list](#-complete-feature-list)
-4. 📊 [Where the data comes from](#-where-the-data-comes-from)
-5. 🧠 [How the main numbers are calculated](#-how-the-main-numbers-are-calculated)
-6. 🌍 [Impact factors](#-impact-factors-illustrative-estimates)
-7. 📁 [Files in this repository](#-files-in-this-repository)
-8. 🚀 [Publishing on GitHub Pages](#-publishing-on-github-pages)
-9. 🔒 [Security and privacy notes](#-security-and-privacy-notes)
-10. 📝 [Known data notes](#-known-data-notes)
-11. 🛠️ [Troubleshooting](#-troubleshooting)
-12. 📬 [Contact](#-contact)
-
----
 
 ## 🌟 Why this dashboard? (Advantages)
 
@@ -156,60 +140,6 @@ The last tab opens an **About & Contact** page with:
 
 ---
 
-## 📊 Where the data comes from
-
-The page reads a **Google Sheet** and refreshes every 5 minutes (or when the sync chip is tapped). If the sheet cannot be reached, it shows the last saved copy of the data built into the page.
-
-### 🧮 Sheet layout (columns used)
-
-| Column | Content |
-|---|---|
-| A | Month, for example `Oct-26` |
-| B, C | DG-1 and DG-2 generation (kWh) |
-| D, E, F | Solar 15, 100 and 120 kWp generation (kWh) |
-| G | KSEB import, Zone 1 (kWh) |
-| H | Total Zone 1 (net of export) |
-| I, J | KSEB Zone 2 and Zone 3 units (kWh) |
-| K | Total units (consumption) |
-| L, M, N | Zone 1, 2 and 3 amounts (₹) |
-| Q | MD charges (₹) |
-| V | Projected bill if all units came from KSEB (₹) |
-| W | KSEB bill actually paid (₹) |
-| X | Solar bill (₹) |
-| Y | Export to KSEB (kWh) |
-| Z | Saving (₹) = V − W − X |
-
-### ✍️ Rules for entering data
-
-- Keep the columns in the same order. Do not insert or move columns.
-- Write the month like `Nov-26`. The page also understands `Nov 26`, `November 2026`, `26-Nov-2026` and `2026-11-01`.
-- A month appears as soon as any generation or import number is entered. If Total Units is empty, the page works it out.
-- Rows that are not months (such as financial-year TOTAL rows) are ignored.
-- The **May 2018** row holds the **cumulative total for Jan 2014 – May 2018**. The page shows it separately, leaves it out of monthly charts and financial-year views, and counts it in "All years".
-- The sheet must be shared as **Anyone with the link can view**.
-
----
-
-## 🧠 How the main numbers are calculated
-
-| Figure | Formula |
-|---|---|
-| Net saving | Projected all-KSEB bill − KSEB bill paid − solar bill |
-| Saving percentage | Net saving ÷ projected all-KSEB bill |
-| Cost per unit (all KSEB) | Projected bill ÷ total units |
-| Cost per unit (our mix) | (KSEB paid + solar bill) ÷ total units |
-| Saving per unit | Net saving ÷ total units |
-| Duty & other charges | Projected bill − zone amounts − MD charges |
-| Source share | Each source ÷ (KSEB import + DG + solar) |
-| Solar share of consumption | (Solar generation − exported units) ÷ total consumption |
-| Days of campus electricity met by solar | (Solar − exported units) ÷ average daily campus consumption |
-| Solar performance (kWh/kWp/day) | Solar kWh ÷ (installed kWp × days running) |
-| Financial year | April of year Y to March of year Y+1 is shown as FY Y-(Y+1) |
-
-The typical range used on the performance gauge is **3 to 5 kWh per kWp per day**, which is an illustrative value for rooftop plants in India.
-
----
-
 ## 🌍 Impact factors (illustrative estimates)
 
 | Equivalent | Factor used |
@@ -231,46 +161,6 @@ The typical range used on the performance gauge is **3 to 5 kWh per kWp per day*
 
 ---
 
-## 📁 Files in this repository
-
-| File | Purpose |
-|---|---|
-| `index.html` | The complete dashboard (one file: page, styles, logic and a saved data copy). Rename `energy_dashboard.html` to `index.html` if needed. |
-| `robots.txt` | Asks search engines and AI crawlers not to index the page. It works only when placed at the root of the domain. |
-| `README.md` | This guide. |
-
-No server, database or build step is needed. Charts use **Chart.js 4.4.1** loaded from cdnjs.
-
----
-
-## 🚀 Publishing on GitHub Pages
-
-1. Put `index.html` (and this README) in the repository `vasteledata`.
-2. Open **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**, select the `main` branch and the `/ (root)` folder, then save.
-4. After a minute the page is live at `https://aruncx.github.io/vasteledata/`.
-5. After updating the file, hard refresh the page (Ctrl+Shift+R) to see the change.
-
-### 🔄 Changing the Google Sheet
-
-The sheet ID is stored in encoded form inside `index.html` as `SID=atob('...')`. To use a different sheet:
-
-1. Open your browser console and run `btoa('YOUR_NEW_SHEET_ID')`.
-2. Replace the text inside `atob('...')` with the result.
-3. Make sure the new sheet has the same column layout and is shared as "Anyone with the link can view".
-
----
-
-## 🔒 Security and privacy notes
-
-The page includes basic deterrents: right-click, copy, text selection, common inspect shortcuts (F12, Ctrl+U and similar) and printing are blocked, the data and sheet ID are stored in encoded form, and the page asks search engines and AI crawlers not to index it.
-
-⚠️ **Important limits**
-- 🛡️ These are deterrents only. Anything shown in a browser can still be captured with a screenshot or advanced tools.
-- 🌐 The Google Sheet is public to anyone with the link, because the page must read it.
-- 🔐 For real protection, put the page behind a login (for example Cloudflare Access, or Netlify or Vercel password protection) and share the sheet only with named people, using a small Google Apps Script to pass the page only the data it needs.
-
----
 
 ## 📝 Known data notes
 
