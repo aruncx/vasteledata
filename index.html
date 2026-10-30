@@ -214,7 +214,7 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
 /* 2026 Enterprise Enhancements */
 .top-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
@@ -876,14 +876,10 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
         <path d="M 60 63 L 56 69 H 60 L 58 75 L 64 68 H 60 Z" fill="#fde047" stroke="none" class="dg-bolt-pulse"/>
       </svg>
     </div>
-  </div>>
+  </div>
   <div class="w">
-    <!-- Top Action & Status Bar -->
+    <!-- Top Action Bar -->
     <div class="top-bar">
-      <div class="badge-live">
-        <span class="dot"></span>
-        <span id="live-status-text">VAST Campus Electricity Dashboard · Connected Live</span>
-      </div>
       <div class="top-actions">
         <button class="btn-fs" onclick="toggleFullscreen()" title="Toggle Fullscreen for presentation">⛶ Fullscreen</button>
         <div class="tg" id="tg">
@@ -1332,14 +1328,12 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
         st.className = 'st on';
         st.textContent = '● Live · ' + D.length + ' months · latest ' + MN[last.m-1] + ' ' + last.y + ' · Synced: ' + syncTime;
         st.title = 'Live sync active with Google Sheets. Click to re-sync. Last synced on: ' + syncTime;
-        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Connected Live (' + D.length + ' months · ' + syncTime + ')';
       } catch (e) {
         let prev = '';
         try { prev = localStorage.getItem('vast_sync_time') || ''; } catch (_) {}
         st.className = 'st';
         st.textContent = 'Saved data (to ' + MN[last.m-1] + ' ' + last.y + ')' + (prev ? ' · Synced: ' + prev : '') + ' · Retry';
         st.title = 'Offline mode or local database. Click to retry connecting to Google Sheets.';
-        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Local Verified Database' + (prev ? ' (Last synced: ' + prev + ')' : '');
       }
     }
 
