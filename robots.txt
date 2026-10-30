@@ -1,6 +1,16 @@
 # Robots.txt for VAST Campus Electricity Dashboard
-# Restrict AI scrapers, web crawlers, and automated data harvesting
+# Allows Google Search & Google Search Console verification while blocking AI scrapers and data miners
 
+User-agent: Googlebot
+Allow: /
+
+User-agent: Google-Site-Verification
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block AI scrapers, LLM training crawlers, and automated harvesters
 User-agent: GPTBot
 Disallow: /
 
@@ -50,4 +60,4 @@ User-agent: Scrapy
 Disallow: /
 
 User-agent: *
-Disallow: /
+Allow: /

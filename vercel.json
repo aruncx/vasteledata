@@ -7,7 +7,7 @@
       "headers": [
         {
           "key": "X-Robots-Tag",
-          "value": "noindex, nofollow, noarchive, nosnippet, noimageindex, noai, noimageai"
+          "value": "noai, noimageai"
         },
         {
           "key": "X-Content-Type-Options",

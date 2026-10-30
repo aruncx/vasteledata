@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex,noai,noimageai">
-  <meta name="googlebot" content="noindex,nofollow,noarchive,noimageindex">
+  <meta name="google-site-verification" content="Hl1G1R66J_DsaQzUZAbvL7QP29hYVeh4N2TsKoBI6Vk">
+  <meta name="robots" content="index,follow,noai,noimageai">
+  <meta name="googlebot" content="index,follow,noimageindex">
   <meta name="referrer" content="no-referrer">
   <meta name="tdm-reservation" content="1">
   <title>VAST Campus Electricity Dashboard · Vidya Academy of Science &amp; Technology</title>
@@ -1291,6 +1292,17 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
       return out;
     }
 
+    function formatSyncTime(d = new Date()) {
+      const day = d.getDate();
+      const m = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()];
+      const y = d.getFullYear();
+      let hr = d.getHours();
+      const min = String(d.getMinutes()).padStart(2, '0');
+      const ampm = hr >= 12 ? 'PM' : 'AM';
+      hr = hr % 12 || 12;
+      return `${day} ${m} ${y}, ${hr}:${min} ${ampm}`;
+    }
+
     async function load() {
       const st = $('#st');
       st.textContent = 'Syncing…';
@@ -1314,13 +1326,20 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
         const d = parse(csv(csvText));
         if (d.length < 12) throw 0;
         D = mkD(d); setup(true); render();
+        const syncTime = formatSyncTime();
+        try { localStorage.setItem('vast_sync_time', syncTime); } catch (_) {}
+
         st.className = 'st on';
-        st.textContent = '● Live · ' + D.length + ' months · latest ' + MN[last.m-1] + ' ' + last.y;
-        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Connected Live (' + D.length + ' months)';
+        st.textContent = '● Live · ' + D.length + ' months · latest ' + MN[last.m-1] + ' ' + last.y + ' · Synced: ' + syncTime;
+        st.title = 'Live sync active with Google Sheets. Click to re-sync. Last synced on: ' + syncTime;
+        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Connected Live (' + D.length + ' months · ' + syncTime + ')';
       } catch (e) {
+        let prev = '';
+        try { prev = localStorage.getItem('vast_sync_time') || ''; } catch (_) {}
         st.className = 'st';
-        st.textContent = 'Saved data (to ' + MN[last.m-1] + ' ' + last.y + ') · Retry';
-        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Local Verified Database';
+        st.textContent = 'Saved data (to ' + MN[last.m-1] + ' ' + last.y + ')' + (prev ? ' · Synced: ' + prev : '') + ' · Retry';
+        st.title = 'Offline mode or local database. Click to retry connecting to Google Sheets.';
+        $('#live-status-text').textContent = 'VAST Campus Electricity Dashboard · Local Verified Database' + (prev ? ' (Last synced: ' + prev + ')' : '');
       }
     }
 
