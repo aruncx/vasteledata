@@ -161,8 +161,6 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .ic-clickable{cursor:pointer;position:relative;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;border:1px solid var(--bd)}
 .ic-clickable:hover{transform:translateY(-4px);border-color:#38bdf8;box-shadow:0 14px 30px -10px rgba(0,0,0,.4)}
 .ic-clickable:focus-visible{outline:2px solid #38bdf8;outline-offset:2px}
-.ic-tag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:3px 9px;margin-top:10px;font-weight:600}
-.ic-clickable:hover .ic-tag{background:#38bdf8;color:#0f172a}
 
 /* Impact Calculation & Reference Modal */
 .imp-mc{max-width:840px;width:min(840px,96vw);padding:24px;border-radius:24px}
@@ -1907,7 +1905,18 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
 
     // Sustainability Impact Calculation
     try { EF = +localStorage.getItem('ef') || 0.71; } catch (e) {} const TREE = 21.8, HOME = 1200, PET = 2.3, EVK = 0.12;
-function impact(){const SL=sel(),y=SL.all?0:1,m=SL.m,rows=D.filter(d=>inSel(d,SL)),B=sum(rows),S=B.sol_g,co=S*EF/1000,pl=$('#pl').textContent.split(' · ')[0],
+const VIS={days:'<div class="days">'+Array.from({length:14},(_,i)=>`<i style="animation-delay:${i*.18}s"></i>`).join('')+'</div>',
+dsl:'<div class="vis">'+[0,.3,.6].map(d=>`<i class="em hm" style="animation-delay:${d}s">🛢️</i>`).join('')+'</div>',
+phn:'<div class="vis">'+['📱','📱','📱','🔋','⚡'].map((e,i)=>`<i class="em hm" style="animation-delay:${i*.25}s">${e}</i>`).join('')+'</div>',
+lap:'<div class="orbit"><i class="em">🌍</i><div class="ob"><em>🚗</em></div></div>',
+lpg:'<div class="vis"><svg class="lpg" viewBox="0 0 64 64"><rect x="29" y="6" width="6" height="8" rx="1" fill="#475569"/><path d="M22 14h20" stroke="#475569" stroke-width="3" stroke-linecap="round"/><rect x="18" y="16" width="28" height="40" rx="10" fill="#dc2626"/><rect x="18" y="16" width="28" height="8" rx="4" fill="#b91c1c"/><rect x="22" y="32" width="20" height="12" rx="2" fill="#fff"/><text x="32" y="41" text-anchor="middle" font-size="9" font-weight="800" fill="#dc2626" font-family="system-ui,sans-serif">LPG</text><rect x="20" y="55" width="24" height="5" rx="2" fill="#7f1d1d"/><g fill="#94a3b8"><circle class="smk" cx="50" cy="16" r="4"/><circle class="smk" style="animation-delay:.7s" cx="54" cy="12" r="3"/><circle class="smk" style="animation-delay:1.3s" cx="48" cy="10" r="2.5"/></g></svg></div>',
+yld:'<div class="vis"><span class="sv">'+IC.sol+'</span></div>',
+'🪨':'<div class="vis"><svg class="coal" viewBox="0 0 150 60"><g stroke="#374151" stroke-width="1.5" stroke-linejoin="round"><polygon points="6,54 10,42 20,36 30,40 34,54" fill="#111827"/><polygon points="28,54 32,38 44,30 56,36 60,54" fill="#1f2937"/><polygon points="52,54 58,44 68,40 78,46 80,54" fill="#0f172a"/></g><g fill="#9ca3af" opacity=".75"><polygon points="14,42 20,38 24,42"/><polygon points="40,36 46,33 50,38"/><polygon points="60,46 66,43 70,47"/></g><g fill="#fff" class="pls"><path d="M22 44l2-3 2 3-2 3z"/><path d="M48 42l2-3 2 3-2 3z"/></g><rect x="98" y="32" width="40" height="22" rx="2" fill="#64748b"/><rect x="102" y="16" width="8" height="16" fill="#475569"/><rect x="120" y="20" width="8" height="12" fill="#475569"/><circle class="smk" cx="106" cy="13" r="4" fill="#94a3b8"/><circle class="smk" style="animation-delay:.8s" cx="108" cy="12" r="3" fill="#94a3b8"/><circle class="smk" style="animation-delay:.4s" cx="124" cy="17" r="3.5" fill="#94a3b8"/><g class="pls" stroke="#ef4444" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="118" cy="38" r="21"/><path d="M103 23l30 30"/></g></svg></div>','🌳':'<div class="vis">'+['🌳','🌲','🌳','🌴','🌲','🌳'].map((e,i)=>`<i class="em sw" style="animation-delay:${i*.3}s">${e}</i>`).join('')+'</div>',
+'🏠':'<div class="vis">'+['🏠','🏡','🏠','🏘️','🏡','🏠'].map((e,i)=>`<i class="em hm" style="animation-delay:${i*.25}s">${e}</i>`).join('')+'</div>',
+'⛽':'<div class="vis"><svg class="pump" viewBox="0 0 64 64"><rect x="10" y="8" width="28" height="46" rx="4" fill="#ef4444"/><rect x="15" y="13" width="18" height="12" rx="2" fill="#fde68a"/><rect class="lv" x="17" y="29" width="14" height="4" rx="2" fill="#fde047"/><path d="M38 20h7l6 6v18a4 4 0 0 1-8 0v-7" stroke="#94a3b8" stroke-width="3" fill="none"/><rect x="6" y="54" width="36" height="5" rx="2" fill="#475569"/><path class="dr" d="M47 48c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8z" fill="#f59e0b"/></svg></div>',
+'🚗':'<div class="road"><em class="car"><em class="fl">🚗</em><em class="zp">⚡</em></em></div>',
+'💧':'<div class="rain">'+[[4,22,0],[16,16,.5],[29,24,1],[44,18,.3],[58,22,.8],[72,16,1.3],[86,24,.15]].map(d=>`<em style="left:${d[0]}%;font-size:${d[1]}px;animation-delay:${d[2]}s">💧</em>`).join('')+'<i class="wv"></i></div>'};
+    function impact(){const SL=sel(),y=SL.all?0:1,m=SL.m,rows=D.filter(d=>inSel(d,SL)),B=sum(rows),S=B.sol_g,co=S*EF/1000,pl=$('#pl').textContent.split(' · ')[0],
 fn=(n,d=0)=>n.toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d}),
 gen=S>=1e6?+(S/1e6).toFixed(2)+' GWh':S>=1e3?+(S/1e3).toFixed(1)+' MWh':fn(S)+' kWh',
 wl=S*3,wh=S*4,wat=wh>=1e6?+(wl/1e6).toFixed(1)+'–'+ +(wh/1e6).toFixed(1)+' million litres':fn(wl)+'–'+fn(wh)+' litres',
@@ -1927,22 +1936,11 @@ const cards=[['🪨','Coal equivalent not burned',fn(S*.55/1000,1)+'–'+fn(S*.7
 ['lpg','LPG cylinders’ worth of CO₂ avoided',fn(co*1000/42.6)+' cylinders','The CO₂ avoided equals the emissions from burning this many 14.2 kg LPG cylinders (about 3 kg CO₂ per kg of LPG, so 42.6 kg per cylinder).'],
 ['yld','Solar performance per kWp installed',yl?fn(yl,2)+' kWh/kWp/day':'–',yl?'About '+fn(yl*365)+' kWh per kWp per year. Rooftop plants in India typically give roughly 3–5 kWh/kWp/day depending on the season (illustrative).':'Needs at least one monthly record in the selected period.']];
 const sdg=[[13,'Climate Action','#3F7E44','Estimated avoided emissions: about '+fn(co,1)+' tonnes of CO₂ from the solar generation in this period.'],[7,'Affordable and Clean Energy','#FCC30B','On-campus solar supplied '+gen+'. Under KSEB net-metering, solar generation covered about '+sh+'% of the recorded campus consumption.'],[12,'Responsible Consumption and Production','#BF8B2E','Tracking production supports energy awareness, better monitoring and informed decisions about electricity use.'],[6,'Clean Water and Sanitation','#26BDE2','Indicative thermal-generation water-use equivalent: '+wat+'. This is not a measured campus water saving.'],[4,'Quality Education','#C5192D','The dashboard turns real production records into a learning resource for students, staff and visitors.'],[11,'Sustainable Cities and Communities','#FD9D24','Clean-energy monitoring helps demonstrate the campus contribution to a more sustainable built environment.']];
-const VIS={days:'<div class="days">'+Array.from({length:14},(_,i)=>`<i style="animation-delay:${i*.18}s"></i>`).join('')+'</div>',
-dsl:'<div class="vis">'+[0,.3,.6].map(d=>`<i class="em hm" style="animation-delay:${d}s">🛢️</i>`).join('')+'</div>',
-phn:'<div class="vis">'+['📱','📱','📱','🔋','⚡'].map((e,i)=>`<i class="em hm" style="animation-delay:${i*.25}s">${e}</i>`).join('')+'</div>',
-lap:'<div class="orbit"><i class="em">🌍</i><div class="ob"><em>🚗</em></div></div>',
-lpg:'<div class="vis"><svg class="lpg" viewBox="0 0 64 64"><rect x="29" y="6" width="6" height="8" rx="1" fill="#475569"/><path d="M22 14h20" stroke="#475569" stroke-width="3" stroke-linecap="round"/><rect x="18" y="16" width="28" height="40" rx="10" fill="#dc2626"/><rect x="18" y="16" width="28" height="8" rx="4" fill="#b91c1c"/><rect x="22" y="32" width="20" height="12" rx="2" fill="#fff"/><text x="32" y="41" text-anchor="middle" font-size="9" font-weight="800" fill="#dc2626" font-family="system-ui,sans-serif">LPG</text><rect x="20" y="55" width="24" height="5" rx="2" fill="#7f1d1d"/><g fill="#94a3b8"><circle class="smk" cx="50" cy="16" r="4"/><circle class="smk" style="animation-delay:.7s" cx="54" cy="12" r="3"/><circle class="smk" style="animation-delay:1.3s" cx="48" cy="10" r="2.5"/></g></svg></div>',
-yld:'<div class="vis"><span class="sv">'+IC.sol+'</span></div>',
-'🪨':'<div class="vis"><svg class="coal" viewBox="0 0 150 60"><g stroke="#374151" stroke-width="1.5" stroke-linejoin="round"><polygon points="6,54 10,42 20,36 30,40 34,54" fill="#111827"/><polygon points="28,54 32,38 44,30 56,36 60,54" fill="#1f2937"/><polygon points="52,54 58,44 68,40 78,46 80,54" fill="#0f172a"/></g><g fill="#9ca3af" opacity=".75"><polygon points="14,42 20,38 24,42"/><polygon points="40,36 46,33 50,38"/><polygon points="60,46 66,43 70,47"/></g><g fill="#fff" class="pls"><path d="M22 44l2-3 2 3-2 3z"/><path d="M48 42l2-3 2 3-2 3z"/></g><rect x="98" y="32" width="40" height="22" rx="2" fill="#64748b"/><rect x="102" y="16" width="8" height="16" fill="#475569"/><rect x="120" y="20" width="8" height="12" fill="#475569"/><circle class="smk" cx="106" cy="13" r="4" fill="#94a3b8"/><circle class="smk" style="animation-delay:.8s" cx="108" cy="12" r="3" fill="#94a3b8"/><circle class="smk" style="animation-delay:.4s" cx="124" cy="17" r="3.5" fill="#94a3b8"/><g class="pls" stroke="#ef4444" stroke-width="4" fill="none" stroke-linecap="round"><circle cx="118" cy="38" r="21"/><path d="M103 23l30 30"/></g></svg></div>','🌳':'<div class="vis">'+['🌳','🌲','🌳','🌴','🌲','🌳'].map((e,i)=>`<i class="em sw" style="animation-delay:${i*.3}s">${e}</i>`).join('')+'</div>',
-'🏠':'<div class="vis">'+['🏠','🏡','🏠','🏘️','🏡','🏠'].map((e,i)=>`<i class="em hm" style="animation-delay:${i*.25}s">${e}</i>`).join('')+'</div>',
-'⛽':'<div class="vis"><svg class="pump" viewBox="0 0 64 64"><rect x="10" y="8" width="28" height="46" rx="4" fill="#ef4444"/><rect x="15" y="13" width="18" height="12" rx="2" fill="#fde68a"/><rect class="lv" x="17" y="29" width="14" height="4" rx="2" fill="#fde047"/><path d="M38 20h7l6 6v18a4 4 0 0 1-8 0v-7" stroke="#94a3b8" stroke-width="3" fill="none"/><rect x="6" y="54" width="36" height="5" rx="2" fill="#475569"/><path class="dr" d="M47 48c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8z" fill="#f59e0b"/></svg></div>',
-'🚗':'<div class="road"><em class="car"><em class="fl">🚗</em><em class="zp">⚡</em></em></div>',
-'💧':'<div class="rain">'+[[4,22,0],[16,16,.5],[29,24,1],[44,18,.3],[58,22,.8],[72,16,1.3],[86,24,.15]].map(d=>`<em style="left:${d[0]}%;font-size:${d[1]}px;animation-delay:${d[2]}s">💧</em>`).join('')+'<i class="wv"></i></div>'};
 $('#impc').innerHTML=`<div class="ihd"><small>BEYOND GENERATION</small><b>Solar energy. Measurable impact.</b><span>What the campus solar generation could mean for climate, resources and everyday life · ${pl}</span></div>
 <div class="ihero"><div class="ihl"><small>CAMPUS SUSTAINABILITY SNAPSHOT</small><b>Clean energy powering a greener tomorrow</b><p>Every unit of solar electricity generated can reduce the need for grid electricity. The equivalents below are illustrative estimates calculated from the solar generation records of the selected period.</p></div><div class="ihr"><i class="em">☀️</i><b>${gen}</b><span>Total solar generation from the 15, 100 and 120 kWp plants · ${pl}</span></div></div>
 <div class="cd icb"><div class="ico"><div><i class="em">🌍</i><small>Carbon emissions avoided</small><b>${fn(co,1)} t CO₂</b><span>Estimated emissions avoided from recorded solar generation, using the dashboard factor of ${EF} kg CO₂/kWh.</span></div><div><i class="em" style="animation:sway 3s ease-in-out infinite;transform-origin:50% 100%">🍃</i><small>Potential carbon-credit equivalent</small><b>${fn(co,1)} tCO₂e</b><span>Indicative carbon-credit equivalent only, assuming 1 credit represents 1 tCO₂e. This is not a count of issued or verified credits.</span></div></div>
 <p class="inote"><b>Important distinction:</b> Avoided emissions are an estimate based on an emission factor. Carbon credits can only be claimed or issued through an eligible project under an approved methodology with required monitoring, validation/verification and registration. This dashboard does not certify carbon credits. The emission factor should be verified against the current applicable official source before formal reporting.</p><p class="inote">Emission factor used (kg CO₂/kWh): <input id="ef" type="number" step="0.001" min="0.1" max="1.5" value="${EF}"> The default 0.71 is the CEA all-India weighted average for FY 2024-25 (CO₂ Baseline Database v21.0). Enter the latest official value here when a newer one is published. One factor is applied to all years.</p></div>
-<div class="ig">${cards.map(c=>`<div class="cd ic ic-clickable" onclick="openImpactModal('${c[0]}')" role="button" tabindex="0" title="Click to view calculation breakdown and references">${VIS[c[0]]||'<i class="em">'+c[0]+'</i>'}<small>${c[1]}</small><b>${c[2]}</b><span>${c[3]}</span><span class="ic-tag">📊 Click for calculation &amp; source ↗</span></div>`).join('')}</div>
+<div class="ig">${cards.map(c=>`<div class="cd ic ic-clickable" onclick="openImpactModal('${c[0]}')" role="button" tabindex="0" title="Click card for calculation &amp; references">${VIS[c[0]]||'<i class="em">'+c[0]+'</i>'}<small>${c[1]}</small><b>${c[2]}</b><span>${c[3]}</span></div>`).join('')}</div>
 <div class="per" style="margin-top:26px">How this connects to sustainability</div><div class="sdg">${sdg.map(s=>`<div class="cd" style="border-left:5px solid ${s[2]}"><i style="background:${s[2]};color:${s[0]==7?'#1a1a1a':'#fff'}">${s[0]}</i><div><b>${s[1]}</b><span>${s[3]}</span></div></div>`).join('')}</div>`;runCU()}
 function runCU(){if(view!='imp'||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const t0=performance.now(),els=[...document.querySelectorAll('#impc b')].map(b=>({b,tx:b.textContent,parts:b.textContent.split(/([\d,]*\d(?:\.\d+)?)/)}));
 (function s(now){const p=Math.min(1,(now-t0)/1500),e=1-Math.pow(1-p,3);els.forEach(o=>{o.b.textContent=p>=1?o.tx:o.parts.map((q,i)=>{if(i%2==0)return q;const dp=(q.split('.')[1]||'').length;return (parseFloat(q.replace(/,/g,''))*e).toLocaleString('en-IN',{minimumFractionDigits:dp,maximumFractionDigits:dp})}).join('')});if(p<1)requestAnimationFrame(s)})(t0)}
@@ -2079,7 +2077,8 @@ document.addEventListener('change',e=>{if(e.target.id=='ef'){const v=parseFloat(
       }
     };
 
-    function openImpactModal(key) {
+    window.openImpactModal = function openImpactModal(key) {
+      try {
       if (document.getElementById('imp-modal')) return;
       const SL = sel(), y = SL.all ? 0 : 1, m = SL.m;
       const rows = D.filter(d => inSel(d, SL)), B = sum(rows), S = B.sol_g, co = S * EF / 1000;
@@ -2186,8 +2185,11 @@ document.addEventListener('change',e=>{if(e.target.id=='ef'){const v=parseFloat(
       el.addEventListener('click', e => { if (e.target === el || e.target.closest('.mx')) close(); });
       document.addEventListener('keydown', kd);
 
-      cnt(el.querySelectorAll('.imp-hero-val b'));
-    }
+      try { cnt(el.querySelectorAll('.imp-hero-val b')); } catch (e) {}
+      } catch (err) {
+        console.error('Error opening impact modal:', err);
+      }
+    };
 
     document.addEventListener('keydown', e => {
       if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.classList && e.target.classList.contains('ic-clickable')) {
