@@ -158,6 +158,48 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 .rain .wv{position:absolute;left:0;right:0;bottom:0;height:8px;border-radius:8px;background:linear-gradient(90deg,#26BDE2,#7dd3fc,#26BDE2);background-size:200% 100%;animation:wvv 2s linear infinite}
 @keyframes fall{70%{opacity:1}to{transform:translateY(74px);opacity:0}}@keyframes wvv{to{background-position:200% 0}}
 .ig>.cd,.sdg>.cd{animation:up .6s backwards}
+.ic-clickable{cursor:pointer;position:relative;transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease;border:1px solid var(--bd)}
+.ic-clickable:hover{transform:translateY(-4px);border-color:#38bdf8;box-shadow:0 14px 30px -10px rgba(0,0,0,.4)}
+.ic-clickable:focus-visible{outline:2px solid #38bdf8;outline-offset:2px}
+.ic-tag{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:#38bdf8;background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);border-radius:999px;padding:3px 9px;margin-top:10px;font-weight:600}
+.ic-clickable:hover .ic-tag{background:#38bdf8;color:#0f172a}
+
+/* Impact Calculation & Reference Modal */
+.imp-mc{max-width:840px;width:min(840px,96vw);padding:24px;border-radius:24px}
+.imp-hero-box{display:flex;gap:20px;align-items:center;background:color-mix(in srgb,#16a34a 12%,var(--card));border:1px solid color-mix(in srgb,#16a34a 35%,transparent);border-radius:18px;padding:20px;margin:16px 0}
+.imp-hero-vis{flex:none;min-width:100px;display:grid;place-items:center}
+.imp-hero-vis .em{font-size:52px}
+.imp-hero-vis .pump,.imp-hero-vis .coal,.imp-hero-vis .lpg{transform:scale(1.35);transform-origin:center}
+.imp-hero-vis .road{width:150px;height:54px}
+.imp-hero-vis .orbit{width:86px;height:86px}
+.imp-hero-vis .orbit .em{font-size:48px}
+.imp-hero-vis .orbit .ob em{font-size:18px}
+.imp-hero-content{flex:1;min-width:0}
+.imp-hero-lbl{display:block;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut)}
+.imp-hero-val{font-size:clamp(26px,4.5vw,36px);font-weight:800;color:#16a34a;letter-spacing:-.5px;margin:4px 0 6px}
+.imp-hero-desc{margin:0;font-size:13.5px;color:var(--tx);line-height:1.5}
+.imp-calc-card{background:var(--bg);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:18px}
+.imp-calc-tag{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--mut);display:block;margin-bottom:10px}
+.imp-calc-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;font-size:13px;border-bottom:1px dashed var(--bd)}
+.imp-calc-row:last-child{border-bottom:none;padding-top:8px}
+.imp-calc-k{color:var(--mut);font-weight:600}
+.imp-calc-v{color:var(--tx);font-weight:700}
+.imp-calc-formula code{background:rgba(56,189,248,.12);border:1px solid rgba(56,189,248,.25);padding:4px 10px;border-radius:8px;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;color:#38bdf8;font-size:12.5px;font-weight:700}
+.imp-ref-section{margin-top:16px}
+.imp-ref-title{font-size:14px;font-weight:800;color:var(--tx);margin-bottom:10px;display:flex;align-items:center;gap:8px;letter-spacing:.3px}
+.imp-tbl-wrapper{border:1px solid var(--bd);border-radius:14px;overflow:hidden;background:var(--bg)}
+.imp-ref-table{width:100%;border-collapse:collapse;font-size:12.5px;text-align:left}
+.imp-ref-table thead th{background:rgba(15,23,42,.85);color:#38bdf8;font-size:11px;text-transform:uppercase;letter-spacing:.8px;padding:11px 14px;border-bottom:1px solid var(--bd);font-weight:800}
+[data-theme="light"] .imp-ref-table thead th{background:#e2e8f0;color:#0284c7}
+.imp-ref-table tbody td{padding:12px 14px;vertical-align:top;border-bottom:1px solid var(--bd);white-space:normal;line-height:1.45;color:var(--tx)}
+.imp-ref-table tbody tr:last-child td{border-bottom:none}
+.imp-ref-table tbody tr:hover td{background:rgba(255,255,255,.02)}
+[data-theme="light"] .imp-ref-table tbody tr:hover td{background:rgba(0,0,0,.02)}
+.imp-td-data b{color:var(--tx);font-size:13px}
+.imp-td-source{color:var(--mut);font-size:12px}
+.imp-status-tag{display:inline-block;padding:3px 10px;border-radius:999px;font-size:10.5px;font-weight:700;background:rgba(56,189,248,.15);color:#38bdf8;border:1px solid rgba(56,189,248,.3);white-space:nowrap}
+.imp-modal-footer{margin-top:16px;padding-top:12px;border-top:1px solid var(--bd);font-size:11.5px;color:var(--mut);line-height:1.5}
+@media(max-width:680px){.imp-hero-box{flex-direction:column;text-align:center}.imp-calc-row{flex-direction:column;align-items:flex-start;gap:4px}}
 
 
 body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}input,select,textarea{-webkit-user-select:text;user-select:text}img,svg{-webkit-user-drag:none;user-drag:none}
@@ -1194,8 +1236,8 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
     }
 
     function plLabel(s) {
-      if (s.fy && s.m) return MFN[s.m - 1] + ' ' + (s.m >= 4 ? s.fy : s.fy + 1) + ' (' + FYL(s.fy) + ')';
-      return (s.m ? MFN[s.m - 1] + ' ' : '') + selLbl(s);
+      if (s.m) return MFN[s.m - 1] + ' ' + (s.fy ? (s.m >= 4 ? s.fy : s.fy + 1) : (s.y || ''));
+      return selLbl(s);
     }
 
     function msOpts(fy) {
@@ -1410,7 +1452,7 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
       const rows = D.filter(d => inSel(d, SL));
       const A = sum(rows);
 
-      $('#pl').textContent = plLabel(SL) + ' · ' + rows.length + ' row' + (rows.length > 1 ? 's' : '') +
+      $('#pl').textContent = plLabel(SL) +
         (rows.some(d => d.cum) ? ' · includes cumulative Jan 2014 – May 2018' : '');
 
       const real = rows.filter(d => !d.cum);
@@ -1436,7 +1478,7 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
           <div>
             <i class="hi">${IC.wallet}</i>
             <small>Paid to KSEB (net)</small>
-            <b>${L(A.net_kb)}${A.rev ? ` <span class="hs-sub">First paid: ${L(A.kb)} · Rev: −${L(A.rev)}</span>` : ''}</b>
+            <b>${L(A.net_kb)}${A.rev ? ` <span class="hs-sub">Initial Bill: ${L(A.kb)} · Rev: −${L(A.rev)}</span>` : ''}</b>
           </div>
           <div><i class="hi">${IC.sol}</i><small>Solar bill</small><b>${L(A.sol)}</b></div>
           <div><i class="hi">${IC.rs}</i><small>Cost per unit · all from KSEB</small><b>${A.tot ? '₹' + (A.bill / A.tot).toFixed(2) : '–'}</b></div>
@@ -1451,12 +1493,12 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
       const dys = real.reduce((s, d) => s + dm(d), 0);
       const dailyAvg = dys ? Math.round(A.tot / dys) : 0;
       const unitCost = A.tot ? ((A.net_kb + A.sol) / A.tot) : 0;
-      const solShare = A.tot ? (solUsed / A.tot * 100) : 0;
+      const solShare = A.tot ? (A.sol_g / A.tot * 100) : 0;
 
       // Days of campus electricity met by solar
       const Bn = sum(real);
       const avgD = dys ? Math.round(Bn.tot / dys) : 0;
-      const sd = avgD ? (solUsed / avgD) : 0;
+      const sd = dys && Bn.tot ? (A.sol_g / (Bn.tot / dys)) : (avgD ? (A.sol_g / avgD) : 0);
 
       // Solar performance per kWp installed
       const capKd = real.reduce((s, d) => s + (115 + (d.y * 100 + d.m >= 202604 ? 120 : 0)) * dm(d), 0);
@@ -1467,9 +1509,9 @@ header{position:relative;touch-action:manipulation}.dbl{position:absolute;right:
       const kp8 = [
         // Row 1: Campus Energy Flow, Operational Demand & Runtime Days
         ['Solar Used on Campus', f(solUsed) + ' kWh', (A.sol_g ? (solUsed / A.sol_g * 100).toFixed(1) : 0) + '% of solar self-consumed', '#10b981', IC.plant, ''],
-        ['Solar Self-Sufficiency', solShare.toFixed(1) + '%', 'Campus load met by solar power', '#059669', IC.sol, ''],
+        ['Solar Self-Sufficiency', solShare.toFixed(1) + '%', 'Total solar generation vs campus load (KSEB net-metering)', '#059669', IC.sol, ''],
         ['Daily Average Consumption', f(dailyAvg) + ' kWh/day', 'Campus daily run-rate across ' + dys + ' active days', '#6366f1', IC.clock, ''],
-        ['Days of Campus Electricity Met by Solar', (sd ? sd.toFixed(1) + ' days' : '–'), avgD ? 'Solar used on campus (after exports) ÷ avg daily load of ' + f(avgD) + ' kWh' : 'Needs monthly data in selected period', '#f59e0b', miniDays, 'days-icon'],
+        ['Days of Campus Electricity Met by Solar', (sd ? sd.toFixed(1) + ' days' : '–'), avgD ? 'Total solar generation ÷ avg daily load of ' + f(avgD) + ' kWh' : 'Needs monthly data in selected period', '#f59e0b', miniDays, 'days-icon'],
 
         // Row 2: Solar Plant Productivity, Blended Tariff & Executive Rupee Economics
         ['Solar Performance per kWp Installed', (yl ? yl.toFixed(2) + ' kWh/kWp/day' : '–'), yl ? 'About ' + f(Math.round(yl * 365)) + ' kWh/kWp/year (benchmark: 3–5 kWh/kWp/day)' : 'Needs monthly data in selected period', '#0284c7', IC.plant, ''],
@@ -1869,8 +1911,8 @@ function impact(){const SL=sel(),y=SL.all?0:1,m=SL.m,rows=D.filter(d=>inSel(d,SL
 fn=(n,d=0)=>n.toLocaleString('en-IN',{minimumFractionDigits:d,maximumFractionDigits:d}),
 gen=S>=1e6?+(S/1e6).toFixed(2)+' GWh':S>=1e3?+(S/1e3).toFixed(1)+' MWh':fn(S)+' kWh',
 wl=S*3,wh=S*4,wat=wh>=1e6?+(wl/1e6).toFixed(1)+'–'+ +(wh/1e6).toFixed(1)+' million litres':fn(wl)+'–'+fn(wh)+' litres',
-sh=B.tot?(Math.max(0,S-B.exp)/B.tot*100).toFixed(1):'–';
-const dm=d=>new Date(d.y,d.m,0).getDate(),nc=rows.filter(d=>!d.cum),dys=nc.reduce((s,d)=>s+dm(d),0),Bn=sum(nc),avgD=dys?Bn.tot/dys:0,sd=avgD?Math.max(0,S-B.exp)/avgD:0,
+sh=B.tot?(S/B.tot*100).toFixed(1):'–';
+const dm=d=>new Date(d.y,d.m,0).getDate(),nc=rows.filter(d=>!d.cum),dys=nc.reduce((s,d)=>s+dm(d),0),Bn=sum(nc),avgD=dys?Bn.tot/dys:0,sd=dys&&Bn.tot?S/(Bn.tot/dys):(avgD?S/avgD:0),
 capKd=nc.reduce((s,d)=>s+(115+(d.y*100+d.m>=202604?120:0))*dm(d),0),yl=capKd?Bn.sol_g/capKd:0,km=S/EVK;
 const cards=[['🪨','Coal equivalent not burned',fn(S*.55/1000,1)+'–'+fn(S*.7/1000,1)+' tonnes','Illustrative range using 0.55–0.70 kg coal per kWh.'],
 ['🌳','Mature-tree annual equivalent',fn(co*1000/TREE,1)+' trees for 1 year','Number of mature trees needed to absorb this much CO₂ in one year (about '+TREE+' kg CO₂ per tree per year); not trees planted or saved.'],
@@ -1878,13 +1920,13 @@ const cards=[['🪨','Coal equivalent not burned',fn(S*.55/1000,1)+'–'+fn(S*.7
 ['⛽','Petrol CO₂ equivalent',fn(co*1000/PET,1)+' litres','CO₂ equivalent based on '+PET+' kg CO₂ per litre of petrol.'],
 ['🚗','Electric vehicle distance',fn(S/EVK,1)+' km','At an illustrative EV consumption of '+EVK+' kWh/km.'],
 ['💧','Thermal-generation water equivalent',wat,'Indicative range of 3–4 litres per kWh; highly technology-dependent. This is not a measured campus water saving.'],
-['days','Days of campus electricity met by solar',avgD?fn(sd,1)+' days':'–',avgD?'Solar used on campus (after exports) ÷ the average daily campus consumption of '+fn(avgD)+' kWh in this period.':'Needs at least one monthly record in the selected period.'],
+['days','Days of campus electricity met by solar',avgD?fn(sd,1)+' days':'–',avgD?'Total solar generation ÷ the average daily campus consumption of '+fn(avgD)+' kWh in this period (net-metering).':'Needs at least one monthly record in the selected period.'],
 ['dsl','Diesel saved (DG-equivalent)',fn(S*.3)+' litres','Diesel a DG set would burn to make the same energy, at an illustrative 0.3 litre per kWh.'],
 ['phn','Mobile phones charged',fn(S*1000/15)+' charges','Full smartphone charges, at an illustrative 15 Wh per charge.'],
 ['lap','Laps around the Earth by EV',fn(km/40075,1)+' laps','EV distance of '+fn(km)+' km ÷ 40,075 km (Earth’s circumference), or about '+fn(km/384400,1)+' trips to the Moon.'],
 ['lpg','LPG cylinders’ worth of CO₂ avoided',fn(co*1000/42.6)+' cylinders','The CO₂ avoided equals the emissions from burning this many 14.2 kg LPG cylinders (about 3 kg CO₂ per kg of LPG, so 42.6 kg per cylinder).'],
 ['yld','Solar performance per kWp installed',yl?fn(yl,2)+' kWh/kWp/day':'–',yl?'About '+fn(yl*365)+' kWh per kWp per year. Rooftop plants in India typically give roughly 3–5 kWh/kWp/day depending on the season (illustrative).':'Needs at least one monthly record in the selected period.']];
-const sdg=[[13,'Climate Action','#3F7E44','Estimated avoided emissions: about '+fn(co,1)+' tonnes of CO₂ from the solar generation in this period.'],[7,'Affordable and Clean Energy','#FCC30B','On-campus solar supplied '+gen+'. After excluding units exported to KSEB, about '+sh+'% of the recorded campus consumption was met by solar.'],[12,'Responsible Consumption and Production','#BF8B2E','Tracking production supports energy awareness, better monitoring and informed decisions about electricity use.'],[6,'Clean Water and Sanitation','#26BDE2','Indicative thermal-generation water-use equivalent: '+wat+'. This is not a measured campus water saving.'],[4,'Quality Education','#C5192D','The dashboard turns real production records into a learning resource for students, staff and visitors.'],[11,'Sustainable Cities and Communities','#FD9D24','Clean-energy monitoring helps demonstrate the campus contribution to a more sustainable built environment.']];
+const sdg=[[13,'Climate Action','#3F7E44','Estimated avoided emissions: about '+fn(co,1)+' tonnes of CO₂ from the solar generation in this period.'],[7,'Affordable and Clean Energy','#FCC30B','On-campus solar supplied '+gen+'. Under KSEB net-metering, solar generation covered about '+sh+'% of the recorded campus consumption.'],[12,'Responsible Consumption and Production','#BF8B2E','Tracking production supports energy awareness, better monitoring and informed decisions about electricity use.'],[6,'Clean Water and Sanitation','#26BDE2','Indicative thermal-generation water-use equivalent: '+wat+'. This is not a measured campus water saving.'],[4,'Quality Education','#C5192D','The dashboard turns real production records into a learning resource for students, staff and visitors.'],[11,'Sustainable Cities and Communities','#FD9D24','Clean-energy monitoring helps demonstrate the campus contribution to a more sustainable built environment.']];
 const VIS={days:'<div class="days">'+Array.from({length:14},(_,i)=>`<i style="animation-delay:${i*.18}s"></i>`).join('')+'</div>',
 dsl:'<div class="vis">'+[0,.3,.6].map(d=>`<i class="em hm" style="animation-delay:${d}s">🛢️</i>`).join('')+'</div>',
 phn:'<div class="vis">'+['📱','📱','📱','🔋','⚡'].map((e,i)=>`<i class="em hm" style="animation-delay:${i*.25}s">${e}</i>`).join('')+'</div>',
@@ -1900,12 +1942,259 @@ $('#impc').innerHTML=`<div class="ihd"><small>BEYOND GENERATION</small><b>Solar 
 <div class="ihero"><div class="ihl"><small>CAMPUS SUSTAINABILITY SNAPSHOT</small><b>Clean energy powering a greener tomorrow</b><p>Every unit of solar electricity generated can reduce the need for grid electricity. The equivalents below are illustrative estimates calculated from the solar generation records of the selected period.</p></div><div class="ihr"><i class="em">☀️</i><b>${gen}</b><span>Total solar generation from the 15, 100 and 120 kWp plants · ${pl}</span></div></div>
 <div class="cd icb"><div class="ico"><div><i class="em">🌍</i><small>Carbon emissions avoided</small><b>${fn(co,1)} t CO₂</b><span>Estimated emissions avoided from recorded solar generation, using the dashboard factor of ${EF} kg CO₂/kWh.</span></div><div><i class="em" style="animation:sway 3s ease-in-out infinite;transform-origin:50% 100%">🍃</i><small>Potential carbon-credit equivalent</small><b>${fn(co,1)} tCO₂e</b><span>Indicative carbon-credit equivalent only, assuming 1 credit represents 1 tCO₂e. This is not a count of issued or verified credits.</span></div></div>
 <p class="inote"><b>Important distinction:</b> Avoided emissions are an estimate based on an emission factor. Carbon credits can only be claimed or issued through an eligible project under an approved methodology with required monitoring, validation/verification and registration. This dashboard does not certify carbon credits. The emission factor should be verified against the current applicable official source before formal reporting.</p><p class="inote">Emission factor used (kg CO₂/kWh): <input id="ef" type="number" step="0.001" min="0.1" max="1.5" value="${EF}"> The default 0.71 is the CEA all-India weighted average for FY 2024-25 (CO₂ Baseline Database v21.0). Enter the latest official value here when a newer one is published. One factor is applied to all years.</p></div>
-<div class="ig">${cards.map(c=>`<div class="cd ic">${VIS[c[0]]||'<i class="em">'+c[0]+'</i>'}<small>${c[1]}</small><b>${c[2]}</b><span>${c[3]}</span></div>`).join('')}</div>
+<div class="ig">${cards.map(c=>`<div class="cd ic ic-clickable" onclick="openImpactModal('${c[0]}')" role="button" tabindex="0" title="Click to view calculation breakdown and references">${VIS[c[0]]||'<i class="em">'+c[0]+'</i>'}<small>${c[1]}</small><b>${c[2]}</b><span>${c[3]}</span><span class="ic-tag">📊 Click for calculation &amp; source ↗</span></div>`).join('')}</div>
 <div class="per" style="margin-top:26px">How this connects to sustainability</div><div class="sdg">${sdg.map(s=>`<div class="cd" style="border-left:5px solid ${s[2]}"><i style="background:${s[2]};color:${s[0]==7?'#1a1a1a':'#fff'}">${s[0]}</i><div><b>${s[1]}</b><span>${s[3]}</span></div></div>`).join('')}</div>`;runCU()}
 function runCU(){if(view!='imp'||matchMedia('(prefers-reduced-motion:reduce)').matches)return;const t0=performance.now(),els=[...document.querySelectorAll('#impc b')].map(b=>({b,tx:b.textContent,parts:b.textContent.split(/([\d,]*\d(?:\.\d+)?)/)}));
 (function s(now){const p=Math.min(1,(now-t0)/1500),e=1-Math.pow(1-p,3);els.forEach(o=>{o.b.textContent=p>=1?o.tx:o.parts.map((q,i)=>{if(i%2==0)return q;const dp=(q.split('.')[1]||'').length;return (parseFloat(q.replace(/,/g,''))*e).toLocaleString('en-IN',{minimumFractionDigits:dp,maximumFractionDigits:dp})}).join('')});if(p<1)requestAnimationFrame(s)})(t0)}
 document.addEventListener('change',e=>{if(e.target.id=='ef'){const v=parseFloat(e.target.value);if(v>0&&v<2){EF=v;try{localStorage.setItem('ef',v)}catch(x){}impact()}}});
 
+    const IMPACT_META = {
+      '🪨': {
+        title: 'Coal Equivalent Not Burned',
+        factor: '0.55 – 0.70 kg coal per kWh thermal generation',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(S * 0.55 / 1000, 1) + '–' + fn(S * 0.70 / 1000, 1) + ' tonnes',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar × (0.55 to 0.70 kg coal/kWh) ÷ 1,000 kg/tonne = ' + fn(S * 0.55 / 1000, 1) + '–' + fn(S * 0.70 / 1000, 1) + ' tonnes',
+        explain: 'Generating solar energy on campus directly avoids purchasing fossil fuel electricity from central thermal power stations, avoiding the combustion of domestic Indian coal.',
+        refs: [
+          { data: 'Specific Coal Consumption (0.55 – 0.70 kg coal/kWh)', source: 'Central Electricity Authority (CEA) Performance Review of Thermal Power Stations (Heat Rate & Specific Fuel Consumption).', status: 'CEA Benchmark' },
+          { data: 'Thermal Coal Gross Calorific Value (3,200 – 4,000 kcal/kg)', source: 'Ministry of Coal, Government of India (G-11 to G-13 thermal power grade coal classification).', status: 'National Norm' }
+        ]
+      },
+      '🌳': {
+        title: 'Mature-Tree Annual Equivalent',
+        factor: '21.8 kg CO₂ absorbed per mature tree per year',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(co * 1000 / TREE, 1) + ' trees for 1 year',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(co, 1) + ' t CO₂ avoided × 1,000 kg ÷ 21.8 kg/tree/year = ' + fn(co * 1000 / TREE, 1) + ' trees',
+        explain: 'Number of mature urban trees growing for a full 12 months needed to sequester the carbon dioxide emissions avoided by campus solar generation.',
+        refs: [
+          { data: 'Tree carbon sequestration rate (21.77 kg / 48 lbs CO₂/tree/year)', source: 'US EPA Greenhouse Gas Equivalencies Calculator & USDA Forest Service Urban Tree Carbon Sequestration Model.', status: 'EPA Benchmark' },
+          { data: 'Grid CO₂ Emission Factor (' + EF + ' kg CO₂/kWh default)', source: 'Central Electricity Authority (CEA) CO₂ Baseline Database for the Indian Power Sector, v21.0 (all-India weighted average).', status: 'CEA Official' }
+        ]
+      },
+      '🏠': {
+        title: 'Household Electricity Equivalent',
+        factor: '1,200 kWh per Indian household per year (~100 kWh/month)',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(S / HOME, 1) + ' homes for 1 year',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar ÷ 1,200 kWh/home/year = ' + fn(S / HOME, 1) + ' homes',
+        explain: 'Number of average Indian households whose entire annual electricity demand could be powered by this solar generation.',
+        refs: [
+          { data: 'Annual household electricity consumption (1,200 kWh/year)', source: 'Bureau of Energy Efficiency (BEE) National Household Energy Survey & NSSO Household Energy Consumption Reports (~100 kWh/month).', status: 'BEE Benchmark' }
+        ]
+      },
+      '⛽': {
+        title: 'Petrol CO₂ Equivalent',
+        factor: '2.31 kg CO₂ per litre of petrol (gasoline)',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(co * 1000 / PET, 1) + ' litres',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(co, 1) + ' t CO₂ avoided × 1,000 kg ÷ 2.30 kg/litre = ' + fn(co * 1000 / PET, 1) + ' litres',
+        explain: 'Volume of motor petrol whose combustion emissions equal the clean solar energy generated on campus.',
+        refs: [
+          { data: 'Motor petrol carbon emission factor (2.31 kg CO₂/litre)', source: 'IPCC 2006 Guidelines for National Greenhouse Gas Inventories, Vol. 2 (Energy), Ch. 3 Mobile Combustion: standard carbon density and oxidation factor for motor gasoline.', status: 'IPCC Default' }
+        ]
+      },
+      '🚗': {
+        title: 'Electric Vehicle Distance',
+        factor: '0.12 kWh per km (approx. 8.3 km per kWh)',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(S / EVK, 1) + ' km',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar ÷ 0.12 kWh/km = ' + fn(S / EVK, 1) + ' km',
+        explain: 'Total road distance that an electric passenger car (e.g. Tata Tiago/Nexon EV) could drive entirely powered by this solar electricity.',
+        refs: [
+          { data: 'EV specific energy consumption (0.12 kWh/km / ~8.3 km/kWh)', source: 'ARAI (Automotive Research Association of India) certified road efficiency & BEE Electric Vehicle Star Labelling Scheme.', status: 'ARAI Standard' }
+        ]
+      },
+      '💧': {
+        title: 'Thermal-Generation Water Equivalent',
+        factor: '3.0 – 4.0 litres of water consumed per kWh of thermal power',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => wat,
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar × (3.0 to 4.0 litres/kWh) = ' + wat,
+        explain: 'Conventional coal thermal power plants consume fresh water for cooling towers and boiler makeup. Generating electricity via solar PV uses zero cooling water, conserving water at grid stations.',
+        refs: [
+          { data: 'Specific water consumption for thermal plants (3.0 – 4.0 L/kWh)', source: 'Ministry of Environment, Forest and Climate Change (MoEFCC) Notification S.O. 3305(E) on Specific Water Consumption for Thermal Power Plants.', status: 'MoEFCC Norm' },
+          { data: 'Thermal power cooling tower water consumption review', source: 'Central Water Commission (CWC) & Central Electricity Authority (CEA) Guidelines for Water Requirement in Thermal Power Stations.', status: 'CWC / CEA Guideline' }
+        ]
+      },
+      'days': {
+        title: 'Days of Campus Electricity Met by Solar',
+        factor: 'Total solar generation ÷ Campus average daily load',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => avgD ? fn(S / (Bn.tot / dys), 1) + ' days' : '–',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar ÷ ' + fn(avgD) + ' kWh/day avg campus demand = ' + (avgD ? fn(S / (Bn.tot / dys), 1) : '–') + ' days',
+        explain: 'Under KSEB Net Metering, solar power produced on holidays or off-peak hours is banked with the grid and credited against campus consumption. This metric expresses total solar production as full 24-hour days of campus electrical demand.',
+        refs: [
+          { data: 'Net Metering energy accounting & banking', source: 'Kerala State Electricity Regulatory Commission (KSERC) Renewable Energy and Net Metering Regulations (2020).', status: 'KSERC Regulation' },
+          { data: 'Campus smart energy billing records', source: 'VAST Thalakkottukara HT Consumer #16/4060 Monthly Utility Invoices & Rooftop Plant Generation Records.', status: 'Campus Record' }
+        ]
+      },
+      'dsl': {
+        title: 'Diesel Saved (DG-Equivalent)',
+        factor: '0.30 litres diesel per kWh (approx. 3.33 kWh per litre)',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(S * 0.3) + ' litres',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh solar × 0.30 litres diesel/kWh = ' + fn(S * 0.3) + ' litres',
+        explain: 'Volume of diesel fuel that standby campus diesel generator sets (125 kVA & 380 kVA) would have consumed to generate the same amount of electricity.',
+        refs: [
+          { data: 'Specific Fuel Consumption (0.30 litres diesel per kWh)', source: 'Cummins / Kirloskar Technical Specifications for 125 kVA & 380 kVA Industrial Diesel Generator Sets at 60–75% rated load.', status: 'OEM Generator Specs' },
+          { data: 'Captive DG set operational benchmarks', source: 'Bureau of Energy Efficiency (BEE) Energy Audit Manual for Diesel Generating Systems.', status: 'BEE Benchmark' }
+        ]
+      },
+      'phn': {
+        title: 'Mobile Phones Charged',
+        factor: '15 Watt-hours (0.015 kWh) per full smartphone charge',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(S * 1000 / 15) + ' charges',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => '(' + fn(S) + ' kWh × 1,000 Wh) ÷ 15 Wh/charge = ' + fn(S * 1000 / 15) + ' charges',
+        explain: 'Total number of complete 0% to 100% smartphone battery charges that could be powered by this solar energy, including wall-adapter conversion losses.',
+        refs: [
+          { data: 'Smartphone charging energy (15 Wh / 0.015 kWh per charge)', source: 'US EPA Greenhouse Gas Equivalencies Calculator (Smartphone Charging Model) & USB-PD Battery Standards.', status: 'EPA Benchmark' }
+        ]
+      },
+      'lap': {
+        title: 'Laps Around the Earth by EV',
+        factor: '40,075 km (Earth equatorial circumference) & 0.12 kWh/km EV efficiency',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(km / 40075, 1) + ' laps',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(km, 1) + ' km EV distance ÷ 40,075 km Earth circumference = ' + fn(km / 40075, 1) + ' laps',
+        explain: 'Number of times an electric car could circumnavigate the Earth’s equator using only the electricity generated by the campus solar plants.',
+        refs: [
+          { data: 'Earth Equatorial Circumference (40,075 km)', source: 'World Geodetic System 1984 (WGS 84) International Astronomical Union standard geodetic constants.', status: 'WGS 84 Standard' },
+          { data: 'Electric Vehicle Efficiency (0.12 kWh/km)', source: 'ARAI (Automotive Research Association of India) certified fuel efficiency standard.', status: 'ARAI Benchmark' }
+        ]
+      },
+      'lpg': {
+        title: 'LPG Cylinders’ Worth of CO₂ Avoided',
+        factor: '2.9 – 3.0 kg CO₂ per kg LPG (~42.6 kg CO₂ per 14.2 kg domestic cylinder)',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => fn(co * 1000 / 42.6) + ' cylinders',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(co, 1) + ' t CO₂ avoided × 1,000 kg ÷ 42.6 kg CO₂/cylinder = ' + fn(co * 1000 / 42.6) + ' cylinders',
+        explain: 'Burning Liquefied Petroleum Gas (LPG) emits ~3.0 kg CO₂ per kg of fuel. A standard 14.2 kg domestic cooking cylinder releases ~42.6 kg CO₂. Clean solar generation avoids emissions equal to burning this many domestic gas cylinders.',
+        refs: [
+          { data: 'LPG emission factor (2.9 kg CO₂ per kg)', source: 'IPCC 2006 Guidelines for National Greenhouse Gas Inventories, Vol. 2 (Energy), Ch. 2 Stationary Combustion: default factor for LPG, about 3.0 kg CO₂ per kg. Rounded down here.', status: 'IPCC default' },
+          { data: 'Domestic LPG Cylinder standard net weight (14.2 kg)', source: 'Ministry of Petroleum and Natural Gas (MoPNG), Government of India & Indian Oil Corporation Limited (IOCL) domestic cylinder norms.', status: 'MoPNG Standard' }
+        ]
+      },
+      'yld': {
+        title: 'Solar Performance per kWp Installed',
+        factor: 'Specific yield in kWh per kWp installed per day',
+        val: (S, co, dys, avgD, yl, km, wat, fn) => yl ? fn(yl, 2) + ' kWh/kWp/day' : '–',
+        calc: (S, co, dys, avgD, yl, km, wat, fn) => fn(S) + ' kWh ÷ (Installed Capacity in kWp × ' + dys + ' days) = ' + (yl ? fn(yl, 2) : '–') + ' kWh/kWp/day',
+        explain: 'Specific yield indicates how many units of electricity each kilowatt-peak of installed rooftop solar panels generates per day, normalizing for plant capacity and season.',
+        refs: [
+          { data: 'Indian Rooftop Solar Specific Yield Benchmark (3.0 – 5.0 kWh/kWp/day)', source: 'Ministry of New and Renewable Energy (MNRE) Grid-Connected Rooftop Solar PV Guidelines.', status: 'MNRE Benchmark' },
+          { data: 'Solar Radiation Atlas for Kerala (Thrissur region)', source: 'National Institute of Solar Energy (NISE) Global Horizontal Irradiance (GHI) database for Central Kerala.', status: 'NISE Database' }
+        ]
+      }
+    };
+
+    function openImpactModal(key) {
+      if (document.getElementById('imp-modal')) return;
+      const SL = sel(), y = SL.all ? 0 : 1, m = SL.m;
+      const rows = D.filter(d => inSel(d, SL)), B = sum(rows), S = B.sol_g, co = S * EF / 1000;
+      const pl = $('#pl').textContent.split(' · ')[0];
+      const dm = d => new Date(d.y, d.m, 0).getDate();
+      const nc = rows.filter(d => !d.cum);
+      const dys = nc.reduce((s, d) => s + dm(d), 0);
+      const Bn = sum(nc);
+      const avgD = dys ? Math.round(Bn.tot / dys) : 0;
+      const capKd = nc.reduce((s, d) => s + (115 + (d.y * 100 + d.m >= 202604 ? 120 : 0)) * dm(d), 0);
+      const yl = capKd ? (Bn.sol_g / capKd) : 0;
+      const km = S / EVK;
+      const wl = S * 3, wh = S * 4;
+      const fn = (n, d = 0) => n.toLocaleString('en-IN', { minimumFractionDigits: d, maximumFractionDigits: d });
+      const wat = wh >= 1e6 ? +(wl / 1e6).toFixed(1) + '–' + +(wh / 1e6).toFixed(1) + ' million litres' : fn(wl) + '–' + fn(wh) + ' litres';
+      
+      const meta = IMPACT_META[key];
+      if (!meta) return;
+
+      const cardVal = meta.val(S, co, dys, avgD, yl, km, wat, fn);
+      const calcStr = meta.calc(S, co, dys, avgD, yl, km, wat, fn);
+
+      const el = document.createElement('div');
+      el.className = 'mo';
+      el.id = 'imp-modal';
+      el.innerHTML = `
+        <div class="mc imp-mc" role="dialog" aria-modal="true">
+          <div class="mh">
+            <div>
+              <small>🌱 SUSTAINABILITY EQUIVALENCY &amp; SOURCE CITATIONS · ${pl}</small>
+              <h3>${meta.title}</h3>
+            </div>
+            <button class="mx" aria-label="Close">✕</button>
+          </div>
+
+          <div class="imp-hero-box">
+            <div class="imp-hero-vis">
+              ${VIS[key] || '<i class="em">' + key + '</i>'}
+            </div>
+            <div class="imp-hero-content">
+              <small class="imp-hero-lbl">Calculated Equivalent for ${pl}</small>
+              <div class="imp-hero-val"><b>${cardVal}</b></div>
+              <p class="imp-hero-desc">${meta.explain}</p>
+            </div>
+          </div>
+
+          <div class="imp-calc-card">
+            <span class="imp-calc-tag">📐 Calculation Logic &amp; Parameters</span>
+            <div class="imp-calc-row">
+              <span class="imp-calc-k">Solar Generation Input:</span>
+              <span class="imp-calc-v">${fn(S)} kWh</span>
+            </div>
+            <div class="imp-calc-row">
+              <span class="imp-calc-k">Conversion Factor Applied:</span>
+              <span class="imp-calc-v">${meta.factor}</span>
+            </div>
+            <div class="imp-calc-row">
+              <span class="imp-calc-k">Step-by-Step Formula:</span>
+              <span class="imp-calc-v imp-calc-formula"><code>${calcStr}</code></span>
+            </div>
+          </div>
+
+          <div class="imp-ref-section">
+            <div class="imp-ref-title">
+              <span>📚 References and Data Sources</span>
+            </div>
+            <div class="imp-tbl-wrapper">
+              <table class="imp-ref-table">
+                <thead>
+                  <tr>
+                    <th style="width:30%;">Data used</th>
+                    <th style="width:52%;">Source</th>
+                    <th style="width:18%;text-align:right;">Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${meta.refs.map(r => `
+                    <tr>
+                      <td class="imp-td-data"><b>${r.data}</b></td>
+                      <td class="imp-td-source">${r.source}</td>
+                      <td class="imp-td-status" style="text-align:right;"><span class="imp-status-tag">${r.status}</span></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="imp-modal-footer">
+            <span>💡 Note: Environmental and resource equivalencies provide illustrative comparisons grounded in official CEA, IPCC, BEE, and MoEFCC guidelines.</span>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(el);
+      document.body.style.overflow = 'hidden';
+
+      const close = () => {
+        el.remove();
+        document.body.style.overflow = '';
+        document.removeEventListener('keydown', kd);
+      };
+      const kd = e => { if (e.key === 'Escape') close(); };
+      el.addEventListener('click', e => { if (e.target === el || e.target.closest('.mx')) close(); });
+      document.addEventListener('keydown', kd);
+
+      cnt(el.querySelectorAll('.imp-hero-val b'));
+    }
+
+    document.addEventListener('keydown', e => {
+      if ((e.key === 'Enter' || e.key === ' ') && e.target && e.target.classList && e.target.classList.contains('ic-clickable')) {
+        e.preventDefault();
+        e.target.click();
+      }
+    });
 
     // Number Animation Counter (for popups)
     function cnt(list) {
@@ -2044,8 +2333,8 @@ document.addEventListener('change',e=>{if(e.target.id=='ef'){const v=parseFloat(
           <div class="dg">
             <div class="dc dtop"><small>Total net financial saving</small><b>${Rs(totSav)}</b><em>${pc(totSav, d.bill)} of all-KSEB bill${rev ? ' (includes ' + Rs(rev) + ' revenue)' : ''}</em></div>
             <div class="dc" style="--c:#94a3b8"><small>All-KSEB bill (projected)</small><b>${Rs(d.bill)}</b><em>If all electricity bought from KSEB</em></div>
-            <div class="dc" style="--c:#38bdf8"><small>First Paid to KSEB (Gross Bill)</small><b>${Rs(grossKb)}</b><em>Amount first paid to KSEB (${pc(grossKb, d.bill)} of bill)</em></div>
-            <div class="dc" style="--c:#0284c7;border:2px solid #0284c7;"><small>Net Paid to KSEB</small><b style="color:#0284c7;">${Rs(netKb)}</b><em>First paid ${Rs(grossKb)}${rev ? ' − Revenue ' + Rs(rev) : ''}</em></div>
+            <div class="dc" style="--c:#38bdf8"><small>Initial Bill to KSEB (Gross Bill)</small><b>${Rs(grossKb)}</b><em>Initial bill to KSEB (${pc(grossKb, d.bill)} of bill)</em></div>
+            <div class="dc" style="--c:#0284c7;border:2px solid #0284c7;"><small>Net Paid to KSEB</small><b style="color:#0284c7;">${Rs(netKb)}</b><em>Initial bill ${Rs(grossKb)}${rev ? ' − Revenue ' + Rs(rev) : ''}</em></div>
             ${rev ? `<div class="dc" style="--c:#10b981"><small>Utility Revenue Earned</small><b style="color:#10b981;">− ${Rs(rev)}</b><em>Directly deducted from KSEB bill (${pc(rev, d.bill)} of bill)</em></div>` : ''}
             <div class="dc" style="--c:#f59e0b"><small>Solar bill</small><b>${Rs(d.sol)}</b><em>${pc(d.sol, d.bill)} of all-KSEB bill</em></div>
           </div>`;
